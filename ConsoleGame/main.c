@@ -116,7 +116,7 @@ void start_game(void){
 				while(1){
 					ch=getch();
 					if(ch == ' '){
-						break;// resuse game
+						break;// resume game
 					}
 				}
 			}else if(ch == 'z' || ch ==  '\033'){
