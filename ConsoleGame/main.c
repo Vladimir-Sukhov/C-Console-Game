@@ -120,7 +120,7 @@ void start_game(struct game_state *game1){
 				while(1){
 					ch=getch();
 					if(ch == ' '){
-						break;// resuse game
+						break;// resume game
 					}
 				}
 			}else if(ch == 'z' || ch ==  '\033'){
