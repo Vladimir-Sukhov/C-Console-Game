@@ -8,14 +8,14 @@ struct game_state {
 	int current_position_y;
 	int obsticle_x;
 	int obsticle_y;
+	int obsticle_value;
+	int obsticle_len;
 	int prime_or_not;
 	int score ;
 	const int primes[4];
 	const int not_primes[6];
-	int obsticle_value;
 	int move_counter;
 };
-
 
 void delay(int tens_of_mil_secods){
     int milli_seconds = 10 * tens_of_mil_secods;
@@ -23,9 +23,10 @@ void delay(int tens_of_mil_secods){
     while (clock() < start_time + milli_seconds);
 }
 
+
 void new_obsticle(struct game_state *game1){
 	    game1->obsticle_y=18;
-		game1->obsticle_x = rand() % 65;
+		game1->obsticle_x = rand() % 69;
 		game1->prime_or_not = rand() % 2;
 		int arr_ind;
 		if(game1->prime_or_not == 0){
@@ -40,13 +41,12 @@ void new_obsticle(struct game_state *game1){
 void print_position(struct game_state *game1){
 	printf("\n Collect Primes  \'w\'-up   \'s\'-down  \'a\'-left  \'d\'-right           SCORE: %d \n\n",game1->score);
 	int counter = 0;
-	
 	int j=0;
 	while(j != 20){
 		
 		if((j == game1->obsticle_y) && (j == game1->current_position_y)){
 	      int a=0;
-			while(a != 65){
+			while(a != 69){
 	          if(a == game1->current_position){
 	          	printf("O");
 			  }else if(a == game1->obsticle_x){
@@ -58,7 +58,7 @@ void print_position(struct game_state *game1){
 		    }
 		}else if((j == game1->obsticle_y)){
 			int a=0;
-			while(a != 65){
+			while(a != 69){
 	          if(a == game1->obsticle_x){
 		     	printf("%d",game1->obsticle_value);
 		     	break;
@@ -68,7 +68,7 @@ void print_position(struct game_state *game1){
 		    ++a;
 		    }
 		}else if(j == game1->current_position_y){
-			while(counter != 71){
+			while(counter != 70){
 				if(counter == (game1->current_position)){
 					printf("O");
 					break;
@@ -120,7 +120,7 @@ void start_game(struct game_state *game1){
 				while(1){
 					ch=getch();
 					if(ch == ' '){
-						break;// resume game
+						break;// resuse game
 					}
 				}
 			}else if(ch == 'z' || ch ==  '\033'){
@@ -128,10 +128,10 @@ void start_game(struct game_state *game1){
 			}
 		}
 		
-		if((game1->current_position) == 1){
+		if((game1->current_position) < 0){
 			game1->current_position = 69;
-		}else if((game1->current_position) ==70){
-			game1->current_position = 1;
+		}else if((game1->current_position) > 69){
+			game1->current_position = 0;
 		}else if((game1->current_position_y) > 18){
 			game1->current_position_y = 18;
 		}else if((game1->current_position_y) < 0 ){
@@ -180,8 +180,10 @@ void game_menu(struct game_state *game1){
 }
 
 int main(int argc, char *argv[]) {
-	struct game_state game1 = {
-	32,0,22,13,0,0,{2,3,5,7},{0,1,4,6,8,9},3,5};
+	srand(time(NULL));  
+	
+	struct game_state game1 = {32,0,22,13,3,1,0,0,{2,3,5,7},{0,1,4,6,8,9},5};
+	new_obsticle(&game1);
 	game_menu(&game1);
 	return 0;
 }
